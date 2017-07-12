@@ -2,9 +2,16 @@
  * Created by david2099 on 11/07/17.
  */
 import React from 'react'
-
+import PropTypes from 'prop-types';
 
 class Book extends React.Component {
+
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        authors: PropTypes.array.isRequired,
+        shelf: PropTypes.string.isRequired,
+        imageLinks: PropTypes.object.isRequired
+    }
 
     render() {
         return (
