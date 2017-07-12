@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types';
-import Book from './Book'
+import ListBooks from './ListBooks'
 
 class BookShelf extends React.Component {
 
@@ -20,14 +20,7 @@ class BookShelf extends React.Component {
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{name}</h2>
                 <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                                <li>
-                                    <Book title={book.title} />
-                                </li>
-                            )
-                        )}
-                    </ol>
+                   <ListBooks books={books} />
                 </div>
             </div>
         )
