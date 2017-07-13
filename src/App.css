@@ -133,6 +133,11 @@ body, .app {
   color: #999;
 }
 
+pre.no-margin {
+  margin: 0px!important;
+  font-family: 'Roboto', sans-serif;
+}
+
 .book-top {
   position: relative;
   height: 200px;

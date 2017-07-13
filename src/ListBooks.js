@@ -19,8 +19,8 @@ class ListBooks extends React.Component {
         return (
             <ol className="books-grid">
                 {books.map((book) => (
-                        <li>
-                            <Book title={book.title} />
+                        <li key={book.title}>
+                            <Book book={book} />
                         </li>
                     )
                 )}
