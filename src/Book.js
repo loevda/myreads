@@ -34,7 +34,7 @@ class Book extends React.Component {
                 <div className="book-title">{title}</div>
                 <div className="book-authors">
                     {authors.map((author, index) => (
-                        `${author}<br />`
+                        `${author}${(index === authors.length -1) ? '' : '<br />'}`
                     ))}
                 </div>
             </div>
