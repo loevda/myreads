@@ -9,7 +9,8 @@ import Book from './Book'
 class ListBooks extends React.Component {
 
     static propTypes = {
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        updateBooks: PropTypes.func.isRequired
     }
 
     render() {
@@ -19,8 +20,8 @@ class ListBooks extends React.Component {
         return (
             <ol className="books-grid">
                 {books.map((book) => (
-                        <li key={book.title}>
-                            <Book book={book} />
+                        <li key={book.id}>
+                            <Book book={book} updateBooks={this.props.updateBooks}  />
                         </li>
                     )
                 )}

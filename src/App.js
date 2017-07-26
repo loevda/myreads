@@ -15,6 +15,17 @@ class BooksApp extends React.Component {
         })
     }
 
+    updateBooks(book) {
+        const books = [...this.state.books]
+        books.forEach((aBook, index) => {
+            if (aBook.id === book.id) {
+                books.splice(index, 1)
+            }
+        })
+        this.setState({ books: books.concat(book) })
+        BooksAPI.update(book, book.shelf)
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -27,9 +38,9 @@ class BooksApp extends React.Component {
                             </div>
                             <div className="list-books-content">
                                 <div>
-                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'currentlyReading' )} name="Currently Reading"/>
-                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'wantToRead' )} name="Want to Read"/>
-                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'read' )} name="Read"/>
+                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'currentlyReading' )} updateBooks={(book) => this.updateBooks(book)} name="Currently Reading"/>
+                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'wantToRead' )} updateBooks={(book) => this.updateBooks(book)}  name="Want to Read"/>
+                                    <BookShelf books={this.state.books.filter((book) => book.shelf === 'read' )} updateBooks={(book) => this.updateBooks(book)}  name="Read"/>
                                 </div>
                             </div>
                             <div className="open-search">
