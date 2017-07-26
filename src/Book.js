@@ -11,7 +11,7 @@ class Book extends React.Component {
         updateBooks: PropTypes.func.isRequired
     }
 
-    handleShelfChange(event, bookId) {
+    handleShelfChange(event) {
         const value = event.target.value
         const book = {...this.props.book}
         book.shelf = value
@@ -27,7 +27,7 @@ class Book extends React.Component {
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail}` }}></div>
                     <div className="book-shelf-changer">
-                        <select defaultValue={book.shelf} onChange={(event) => this.handleShelfChange(event, book.id)}>
+                        <select defaultValue={book.shelf} onChange={(event) => this.handleShelfChange(event)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
