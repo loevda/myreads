@@ -3,10 +3,12 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf'
+import ListBooks from './ListBooks'
 
 class BooksApp extends React.Component {
     state = {
-        books: []
+        books: [],
+        searchResult: []
     }
 
     componentDidMount() {
@@ -24,6 +26,22 @@ class BooksApp extends React.Component {
         })
         this.setState({ books: books.concat(book) })
         BooksAPI.update(book, book.shelf)
+    }
+
+    updateSearch(event) {
+        const query = event.target.value
+        if(query !== '') {
+            BooksAPI.search(query, 1).then((books) => {
+                console.log(books)
+                if (books.error) {
+                    this.setState({ searchResult: []})
+                }else{
+                    this.setState({ searchResult: books})
+                }
+            })
+        } else {
+            this.setState({ searchResult: []})
+        }
     }
 
     render() {
@@ -62,11 +80,14 @@ class BooksApp extends React.Component {
                                        </Link>
 
                                        <div className="search-books-input-wrapper">
-                                           <input type="text" placeholder="Search by title or author"/>
+                                           <input type="text"
+                                                  placeholder="Search by title or author"
+                                                  onChange={(event) => this.updateSearch(event)}
+                                           />
                                        </div>
                                    </div>
                                    <div className="search-books-results">
-                                       <ol className="books-grid"></ol>
+                                       <ListBooks books={this.state.searchResult} updateBooks={(book) => this.updateBooks(book)} keyHelper="search" />
                                    </div>
                                </div>
                            )} />

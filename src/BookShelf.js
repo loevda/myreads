@@ -21,7 +21,7 @@ class BookShelf extends React.Component {
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{name}</h2>
                 <div className="bookshelf-books">
-                   <ListBooks books={books} updateBooks={this.props.updateBooks} />
+                   <ListBooks books={books} updateBooks={this.props.updateBooks} keyHelper="shelf" />
                 </div>
             </div>
         )

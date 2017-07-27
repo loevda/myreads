@@ -18,6 +18,14 @@ class Book extends React.Component {
         this.props.updateBooks(book)
     }
 
+    getThumbnail() {
+        return this.props.book.imageLinks ? this.props.book.imageLinks.thumbnail : ''
+    }
+
+    getAuthors() {
+        return this.props.book.authors ? this.props.book.authors.join('\n\r') : ''
+    }
+
     render() {
 
         const { book } = this.props
@@ -25,7 +33,7 @@ class Book extends React.Component {
         return (
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail}` }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.getThumbnail()}` }}></div>
                     <div className="book-shelf-changer">
                         <select defaultValue={book.shelf} onChange={(event) => this.handleShelfChange(event)}>
                             <option value="none" disabled>Move to...</option>
@@ -38,7 +46,7 @@ class Book extends React.Component {
                 </div>
                 <div className="book-title">{book.title}</div>
                 <div className="book-authors">
-                    <pre className="no-margin no-padding">{book.authors.join('\n\r')}</pre>
+                    <pre className="no-margin no-padding">{this.getAuthors()}</pre>
                 </div>
             </div>
         )
