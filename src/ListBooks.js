@@ -20,8 +20,8 @@ class ListBooks extends React.Component {
         return (
             <ol className="books-grid">
                 {books.map((book, index) => (
-                        <li key={`${book.id}-${index}`}>
-                            <Book book={book} updateBooks={this.props.updateBooks} key={book.id}  />
+                        <li key={book.id}>
+                            <Book book={book} updateBooks={this.props.updateBooks}  />
                         </li>
                     )
                 )}

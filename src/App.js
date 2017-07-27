@@ -4,6 +4,7 @@ import './App.css'
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf'
 import ListBooks from './ListBooks'
+import { uniqBy } from 'lodash'
 
 class BooksApp extends React.Component {
     state = {
@@ -19,6 +20,7 @@ class BooksApp extends React.Component {
 
     updateBooks(book) {
         const books = [...this.state.books]
+        const searchResult = [...this.state.searchResult]
         books.forEach((aBook, index) => {
             if (aBook.id === book.id) {
                 books.splice(index, 1)
@@ -26,17 +28,23 @@ class BooksApp extends React.Component {
         })
         this.setState({ books: books.concat(book) })
         BooksAPI.update(book, book.shelf)
+        searchResult.map((aBook, index) => {
+            if (aBook.id === book.id) {
+                aBook.shelf = book.shelf
+            }
+            return aBook
+        })
+        this.setState({ searchResult: searchResult })
     }
 
     updateSearch(event) {
         const query = event.target.value
         if(query !== '') {
-            BooksAPI.search(query, 1).then((books) => {
-                console.log(books)
+            BooksAPI.search(query, 20).then((books) => {
                 if (books.error) {
                     this.setState({ searchResult: []})
                 }else{
-                    this.setState({ searchResult: books})
+                    this.setState({ searchResult: uniqBy(books, 'id') })
                 }
             })
         } else {
