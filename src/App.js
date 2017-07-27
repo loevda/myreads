@@ -4,12 +4,13 @@ import './App.css'
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf'
 import ListBooks from './ListBooks'
-import { uniqBy } from 'lodash'
+import { uniqBy, intersectionBy, differenceBy, concat } from 'lodash'
 
 class BooksApp extends React.Component {
     state = {
         books: [],
-        searchResult: []
+        searchResult: [],
+        query: ''
     }
 
     componentDidMount() {
@@ -39,12 +40,20 @@ class BooksApp extends React.Component {
 
     updateSearch(event) {
         const query = event.target.value
-        if(query !== '') {
+        this.setState({ query })
+        if(query) {
             BooksAPI.search(query, 20).then((books) => {
                 if (books.error) {
                     this.setState({ searchResult: []})
+                    console.log(books.error)
                 }else{
-                    this.setState({ searchResult: uniqBy(books, 'id') })
+                    const uniqueResult = uniqBy(books, 'id')
+                    const querySet = concat(intersectionBy(this.state.books, uniqueResult, 'id'),
+                        differenceBy(uniqueResult, this.state.books, 'id').map((item) => {
+                        item.shelf = 'none'
+                        return item
+                    }))
+                    this.setState({ searchResult: querySet })
                 }
             })
         } else {
@@ -91,11 +100,12 @@ class BooksApp extends React.Component {
                                            <input type="text"
                                                   placeholder="Search by title or author"
                                                   onChange={(event) => this.updateSearch(event)}
+                                                  value={this.state.query}
                                            />
                                        </div>
                                    </div>
                                    <div className="search-books-results">
-                                       <ListBooks books={this.state.searchResult} updateBooks={(book) => this.updateBooks(book)} keyHelper="search" />
+                                       <ListBooks books={this.state.searchResult} updateBooks={(book) => this.updateBooks(book)} />
                                    </div>
                                </div>
                            )} />
